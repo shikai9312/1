@@ -56,75 +56,39 @@ DEFINE_PB_COALESCENCE_RATE(aggregation_kernel,cell,thread,d_1,thread_2,d_2)
 
 ```
 /************************************************************************
-
 UDF that computes the particle breakage PDF
-
 *************************************************************************/
-
 #include "udf.h"
-
 #include "sg_pb.h"
-
 #include "sg_mphase.h"
 
-
-
 #define kb 1.381e-23
-
 #define T 343.15
-
 #define u 1.7894e-05
-
 #define v 1.48e-05
-
 #define c 20.99948   /*湍流聚并常数*/ 
-
 #define Umax 4e-18   /*颗粒间排斥势能，需要调整*/
-
 #define den 2100
-
 real e;      /*单位质量能量耗散率*/
-
 real agg_kernel;
-
 real a1;   /*布朗聚并*/
-
 real a2;   /*湍流聚并*/
-
 real R0;
-
 real f;   /*捕集效率*/
-
 real mp;   /*聚并后颗粒质量*/
 
-
-
 DEFINE_PB_COALESCENCE_RATE(aggregation_kernel,cell,thread,d_1,thread_2,d_2)
-
 {   
-
 	Thread *tm = THREAD_SUPER_THREAD(thread);
-
 	e = C_O(cell,tm);
-
 	a1 = 2*kb*T*pow((d_1+d_2),2.0)/(3*u*(d_1*d_2));	
-
 	R0 = (d_1+d_2)/4;	
-
 	mp = 0.523599*(pow(d_1,3.0)+pow(d_2,3.0))*den;
-
 	f = (9*Umax*v/(4*R0*R0*e*mp)+1)*exp(-9*Umax*v/(4*R0*R0*e*mp));
-
 	a2 = c*f*pow(R0,3.0)*sqrt(e/v);
-
 	agg_kernel = sqrt( pow(a1,2.0) + pow(a2,2.0));
-
         return agg_kernel;
-
 }
 
-
-
 ```
-
 
