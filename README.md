@@ -9,7 +9,6 @@ CONTANT
 * 残差设置1e-8
 
 ## pathline的设置
-![微信截图_20171208173317]($res/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20171208173317.png)
 scale=0.05，color by Velocity，Release from各个面
 
 ## 两相流模型
